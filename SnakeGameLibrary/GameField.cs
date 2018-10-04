@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows;
 
 namespace SnakeGameLibrary
 {
@@ -65,7 +65,7 @@ namespace SnakeGameLibrary
                 Foreground = Brushes.GreenYellow,
                 FontSize = 50,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
             grid.Children.Add(label);
 

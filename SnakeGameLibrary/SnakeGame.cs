@@ -40,8 +40,8 @@ namespace SnakeGameLibrary
             }
 
             Snake.InitializeSnake(GameField, Difficulty);
-            Snake.OnLackOfFood += new EventHandler(InitializeFood);
-            Snake.OnSnakeCrash += new EventHandler(GameOver);
+            Snake.OnLackOfFood += InitializeFood;
+            Snake.OnSnakeCrash += GameOver;
             Snake.StartMoving();
         }
 

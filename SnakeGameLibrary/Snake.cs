@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Windows.Input;
 
 namespace SnakeGameLibrary
 {
@@ -27,7 +27,7 @@ namespace SnakeGameLibrary
             Body = new List<Pixel>();
             MovingDirection = Direction.Right;
             _dispatcherTimer = new DispatcherTimer();
-            _dispatcherTimer.Tick += new EventHandler(Move);
+            _dispatcherTimer.Tick += Move;
             Length = length;
 
             MovesCount = 0;
@@ -89,7 +89,7 @@ namespace SnakeGameLibrary
 
             Pixel.Canvas.Focusable = true;
             Keyboard.Focus(Pixel.Canvas);
-            Pixel.Canvas.KeyDown += new KeyEventHandler(OnKeyDown);
+            Pixel.Canvas.KeyDown += OnKeyDown;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace SnakeGameLibrary
         /// </summary>
         public int Length { get; private set; }
 
-        public List<Pixel> Body { get; private set; }
+        public List<Pixel> Body { get; }
 
         public Pixel Head { get; private set; }
 
@@ -146,7 +146,7 @@ namespace SnakeGameLibrary
 
             if (_gameField.IsLackOfFood)
             {
-                OnLackOfFood(this, null);
+                OnLackOfFood?.Invoke(this, null);
             }
 
             Head.Fill(BodyColor);
@@ -175,7 +175,7 @@ namespace SnakeGameLibrary
             {
                 StopMoving();
                 _dispatcherTimer.Tick -= Move;
-                OnSnakeCrash(this, null);
+                OnSnakeCrash?.Invoke(this, null);
             }
 
             Head.Fill(HeadColor);
@@ -196,7 +196,7 @@ namespace SnakeGameLibrary
             {
                 StopMoving();
                 _dispatcherTimer.Tick -= Move;
-                OnSnakeCrash(this, null);
+                OnSnakeCrash?.Invoke(this, null);
             }
         }
 
