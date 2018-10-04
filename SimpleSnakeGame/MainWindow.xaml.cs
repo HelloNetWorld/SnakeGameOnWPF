@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using SnakeGameLibrary;
 
 namespace SimpleSnakeGame
 {
@@ -10,26 +13,33 @@ namespace SimpleSnakeGame
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += SnakeGameLoaded;
+            Loaded += SnakeGameLoader;
+            KeyDown += new KeyEventHandler(CloseOnEsc);
         }
 
-        private void SnakeGameLoaded(object sender, RoutedEventArgs e)
+        private void SnakeGameLoader(object sender, RoutedEventArgs e)
         {
             var snakeGame = new SnakeGame
             {
-                Snake = new Snake
-                {
-                    Length = 3,
-                    StartPosition = StartPosition.Center
-                },
-                GameField = new GameField
-                {
-                    SquareSize = 50,
-                    Field = playingField
-                },
-                Difficulty = Difficulty.Hard
+                Snake = new Snake(
+                    length: 3,
+                    startPosition: StartPosition.Center,
+                    bodyColor: Brushes.Red,
+                    headColor: Brushes.Black),
+                GameField = new GameField(
+                    pixelSize: 50,
+                    playingField: playingField,
+                    pixelType: PixelType.Square),
+                Difficulty = Difficulty.Hard,
+                FoodColor = Brushes.GreenYellow,
+                AmountOfFood = 6
             };
-            snakeGame.ReadySteadyGo();
+            snakeGame.Start();
+        }
+
+        private void CloseOnEsc(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) Close();
         }
     }
 }
