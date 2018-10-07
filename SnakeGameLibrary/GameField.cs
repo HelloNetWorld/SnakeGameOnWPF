@@ -10,13 +10,13 @@ namespace SnakeGameLibrary
 {
     public class GameField
     {
-        #region Private members
+        #region Fields
 
         private readonly Pixel[,] _pixels;
 
         #endregion
 
-        #region Public methods
+        #region Ctor
 
         /// <summary>
         /// Initializes a new instance of GameField
@@ -42,6 +42,10 @@ namespace SnakeGameLibrary
             Rows = (int)Math.Floor(playingField.ActualHeight / pixelSize);
             Columns = (int)Math.Floor(playingField.ActualWidth / pixelSize);
 
+            Pixel.Corrective = Tuple.Create(
+                playingField.ActualHeight % pixelSize / Rows,
+                playingField.ActualWidth % pixelSize / Columns);
+
             _pixels = new Pixel[Rows, Columns];
             for (int i = 0; i < Rows; i++)
             {
@@ -51,6 +55,10 @@ namespace SnakeGameLibrary
                 }
             }
         }
+
+        #endregion
+
+        #region Public methods
 
         public void ResultBoard(int movesCount, double scoreCount)
         {
@@ -72,7 +80,7 @@ namespace SnakeGameLibrary
             Pixel.Canvas.Children.Add(grid);
         }
 
-        public IEnumerable<Pixel> GetPixels()
+        internal IEnumerable<Pixel> GetPixels()
         {
             for (int i = 0; i < Rows; i++)
             {
@@ -109,7 +117,7 @@ namespace SnakeGameLibrary
 
         #region Indexer
 
-        public Pixel this[int i, int j]
+        internal Pixel this[int i, int j]
         {
             get
             {
@@ -135,9 +143,9 @@ namespace SnakeGameLibrary
         #endregion
     }
 
-    public class Pixel
+    internal class Pixel
     {
-        #region Private members
+        #region Fields
 
         private readonly Shape _pixel;
 
@@ -149,8 +157,9 @@ namespace SnakeGameLibrary
         {
             I = i;
             J = j;
-            int yCoordinate = i * Size;
-            int xCoordinate = j * Size;
+
+            double yCoordinate = i * (Size + Corrective.Item1);
+            double xCoordinate = j * (Size + Corrective.Item2);
 
             if (PixelType == PixelType.Circle)
             {
@@ -185,6 +194,8 @@ namespace SnakeGameLibrary
         public static Canvas Canvas { get; set; }
 
         public static PixelType PixelType { get; set; }
+
+        public static Tuple<double,double> Corrective { get; set; }
 
         public static int Size { get; set; }
 

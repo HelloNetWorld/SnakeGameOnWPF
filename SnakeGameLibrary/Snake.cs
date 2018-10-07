@@ -9,7 +9,7 @@ namespace SnakeGameLibrary
 {
     public class Snake
     {
-        #region Private members
+        #region Fields
 
         private GameField _gameField;
         private readonly DispatcherTimer _dispatcherTimer;
@@ -18,7 +18,7 @@ namespace SnakeGameLibrary
 
         #region Ctors
 
-        public Snake(int length)
+        private Snake(int length)
         {
             if (length <= 0)
             {
@@ -29,9 +29,6 @@ namespace SnakeGameLibrary
             _dispatcherTimer = new DispatcherTimer();
             _dispatcherTimer.Tick += Move;
             Length = length;
-
-            MovesCount = 0;
-            ScoreCount = 0;
         }
 
         /// <summary>
@@ -119,9 +116,9 @@ namespace SnakeGameLibrary
         /// </summary>
         public int Length { get; private set; }
 
-        public List<Pixel> Body { get; }
+        internal List<Pixel> Body { get; }
 
-        public Pixel Head { get; private set; }
+        internal Pixel Head { get; private set; }
 
         public int MovesCount { get; set; }
 
@@ -263,21 +260,13 @@ namespace SnakeGameLibrary
     public enum StartPosition
     {
         Center,
-        /// <summary>
-        /// Not supported
-        /// </summary>
+        [Obsolete("Not suppoerted")]
         LeftUpCorner,
-        /// <summary>
-        /// Not supported
-        /// </summary>
+        [Obsolete("Not suppoerted")]
         LeftDownCorner,
-        /// <summary>
-        /// Not supported
-        /// </summary>
+        [Obsolete("Not suppoerted")]
         RightUpCorner,
-        /// <summary>
-        /// Not supported
-        /// </summary>
+        [Obsolete("Not suppoerted")]
         RightDownCorner
     }
 }
